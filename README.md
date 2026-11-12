@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# whoami — AgentPassport Connect
 
-## Getting Started
+A responsive landing page for the AgentPassport Connect proposal. Built with Next.js, TypeScript, and Three.js. The design uses a dark monochrome base, restrained green verification accents, a floating 3D passport, and an interactive signature playground.
 
-First, run the development server:
+## Run locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build
+npm start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## What works
 
-## Learn More
+- Responsive navigation, section links, FAQ disclosures, and keyboard-accessible code tabs.
+- Animated Three.js particle network and a pointer-responsive CSS 3D passport.
+- A pause control, reduced-motion support, offscreen/background WebGL suspension, and a static orbit fallback when WebGL is unavailable.
+- A local Ed25519 playground using Web Crypto. Each example deployment gets a separate ephemeral signing key. Tampering changes the signed data and fails signature verification. Revocation updates a simulated local registry and rejects the deployment independently of its signature.
+- Copyable SDK API examples, with clipboard fallback.
 
-To learn more about Next.js, take a look at the following resources:
+## Prototype boundaries
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The NEAR registry, wallet connection, published SDK packages, and hosted API are not implemented. Framework support is labeled as planned. SDK examples illustrate the proposed API, not a published package. All playground keys and simulated state live in browser memory and are discarded when the page reloads. The decorative identity matrix on the hero card is not a scannable QR code. This demo does not establish platform ownership, task success, or agent safety.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Ed25519 requires a modern browser and a secure context (HTTPS or localhost). The browser displays a support message if the API is unavailable.
 
-## Deploy on Vercel
+## Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `app/page.tsx`: landing page content and sections
+- `app/globals.css`: responsive visual system and motion
+- `app/components/hero-visual.tsx`: Three.js scene and floating passport
+- `app/components/playground.tsx`: local signature and revocation demo
+- `app/components/code-example.tsx`: SDK tabs and clipboard behavior
+- `app/components/navigation.tsx`: desktop and mobile navigation
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Geist Sans and Geist Mono are bundled locally so builds do not require Google Fonts. Their SIL Open Font License is included in `app/fonts/LICENSE.txt`.
